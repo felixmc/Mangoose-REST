@@ -1,13 +1,14 @@
 {
-  "name": "mango-rest",
-  "version": "0.1.3",
-  "description": "minimal library for mapping mongodb collections to a REST service",
-  "main": "MangoRest.js",
+  "name": "mangoose-rest",
+  "version": "0.1.0",
+  "description": "minimal library for mapping mongoose models to a REST service",
+  "main": "MangooseRest.js",
   "dependencies": {
-    "body-parser": "^1.5.2",
-    "custom-logger": "^0.2.1",
-    "express": "^4.7.2",
-    "mongodb": "^1.4.7"
+		"mongoose": "^3.8.15",
+		"body-parser": "^1.5.2",
+		"custom-logger": "^0.2.1",
+		"express": "^4.7.2",
+		"mongodb": "^1.4.7"
   },
   "devDependencies": {},
   "scripts": {
@@ -15,11 +16,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/felixmc/Mango-REST.git"
+    "url": "https://github.com/felixmc/Mangoose-REST.git"
   },
   "keywords": [
     "mongo",
     "mongodb",
+		"mongoose",
     "rest",
     "express",
     "server",
@@ -28,7 +30,7 @@
   "author": "Felix Milea-Ciobanu <felixmilea@gmail.com> (http://felixmilea.com/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/felixmc/Mango-REST/issues"
+    "url": "https://github.com/felixmc/Mangoose-REST/issues"
   },
-  "homepage": "https://github.com/felixmc/Mango-REST"
+  "homepage": "https://github.com/felixmc/Mangoose-REST"
 }
