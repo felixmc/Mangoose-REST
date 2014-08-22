@@ -4,15 +4,15 @@
   "description": "minimal library for mapping mongoose models to a REST service",
   "main": "MangooseRest.js",
   "dependencies": {
+		"mocha": "^1.21.4",
 		"mongoose": "^3.8.15",
-		"body-parser": "^1.5.2",
 		"custom-logger": "^0.2.1",
-		"express": "^4.7.2",
-		"mongodb": "^1.4.7"
+		"body-parser": "^1.5.2",
+		"express": "^4.7.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodejs test/test.js"
   },
   "repository": {
     "type": "git",

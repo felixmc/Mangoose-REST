@@ -1,25 +1,32 @@
+"use strict";
+
 var express = require("express");
 var fs      = require("fs");
 var path    = require("path");
 
-function MangoRest(config) {
+var modelDir = "./models/";
+var handlerDir = "./handlers/";
+
+exports.service = function(config) {
 	var router = express.Router();
 
 	var bodyParser = require("body-parser");
 	router.use(bodyParser.json());
+	
+	var mongoose = require("mongoose");
 
-	for (var i = 0; i < config.length; i++) {
-		var modelConfig = config[i];
+	mongoose.connect(typeof config.connection === 'string' ? config.connection :	"mongodb://" + (config.connection.user ? config.connection.user + ":" + config.connection.password + "@" : "")  + config.connection.host + ":27017/" + config.connection.database);
 
+	for (var i = 0; i < config.collections.length; i++) {
+		var modelConfig = config.collections[i];
 		var name = modelConfig.name;
 
-		var model   = modelConfig.model && fs.existsSync(modelConfig.model)
-					? new MangoRest.Model(name, require(path.resolve(modelConfig.model)))
-					: new MangoRest.Model(name);
+		var model = require(path.resolve(modelDir + name + ".js"))(mongoose, name);
 	
-		var handler = modelConfig.handler && fs.existsSync(modelConfig.handler)
-					?	require(path.resolve(modelConfig.handler))(MangoRest.Handler, model)
-					: MangoRest.Handler.crud(model);	
+		var handlerPath = handlerDir + modelConfig.handler + ".js";
+		var handler = fs.existsSync(handlerPath)
+					?	require(path.resolve(handlerPath))(exports.Handler, model)
+					: exports.Handler.crud(model);
 		
 		var route = modelConfig.route || name;
 
@@ -29,18 +36,10 @@ function MangoRest(config) {
 	return router;
 };
 
-MangoRest.Handler = require("./handler");
+exports.Handler = require("./handler");
 
-exports.init = function(config) {
-	MangoRest.Model = require("./model").init(config);
-	return MangoRest;
-};
-
-exports.Server = function(obj) {
+exports.Server = function(config) {
 	var app = express();
-
-	exports.init(obj.mongoConfig)
-	app.use("/", MangoRest(obj.models));
-		
+	app.use("/", exports.service(config));
 	return app;
 };
